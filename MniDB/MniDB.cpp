@@ -19,6 +19,65 @@ enum ACTION {
 	SHOW_DATA
 };
 
+int GetStringLength(char* ar);
+void CreateDB(char**** db, int* size);
+void DeleteDB(char**** db, int* size);
+int UserExist(char*** db, int size, char* login);
+void AddUser(char**** db, int* size, char* login, char* password);
+void DeleteUser(char**** db, int* size, int index);
+void ChangePassword(char*** db, int size, char* login, char* password);
+void PrintDB(char*** db, int size);
+
+int main()
+{
+	int size = 0;
+	char*** db = nullptr;
+
+	int action;
+
+	char* login = new char[SIZES::TXT];
+	char* password = new char[SIZES::TXT];
+	int userToDelete;
+	CreateDB(&db, &size);
+
+	while (true)
+	{
+		cout << "\nData Base:\n0 - Add new user;\n1 - Delete user;\n2 - Change password;\n3 - Show Data Base;\n~// ";
+		cin >> action;
+		cout << '\n';
+		switch (action)
+		{
+		case ADD_USER:
+			cout << "Enter login: ";
+			cin >> login;
+			cout << "Enter password: ";
+			cin >> password;
+			AddUser(&db, &size, login, password);
+			break;
+		case DELETE_USER:
+			cout << "Enter index of user to delete: ";
+			cin >> userToDelete;
+			DeleteUser(&db, &size, userToDelete);
+			break;
+		case CHANGE_PASSWORD:
+			cout << "Enter login: ";
+			cin >> login;
+			cout << "Enter new password: ";
+			cin >> password;
+			ChangePassword(db, size, login, password);
+			break;
+		case SHOW_DATA:
+			PrintDB(db, size);
+			break;
+		default:
+			cout << "action not exist!";
+			break;
+		}
+	}
+
+}
+
+
 int GetStringLength(char* ar)
 {
 	int length = 0;
@@ -224,55 +283,5 @@ void PrintDB(char*** db, int size)
 		cout << '\n';
 	}
 	cout << "\n---------------------------------------------\n\n";
-
-}
-
-
-int main()
-{
-	int size = 0;
-	char*** db = nullptr;
-
-	int action;
-
-	char* login = new char[SIZES::TXT];
-	char* password = new char[SIZES::TXT];
-	int userToDelete;
-	CreateDB(&db, &size);
-
-	while (true)
-	{
-		cout << "\nData Base:\n0 - Add new user;\n1 - Delete user;\n2 - Change password;\n3 - Show Data Base;\n~// ";
-		cin >> action;
-		cout << '\n';
-		switch (action)
-		{
-		case ADD_USER:
-			cout << "Enter login: ";
-			cin >> login;
-			cout << "Enter password: ";
-			cin >> password;
-			AddUser(&db, &size, login, password);
-			break;
-		case DELETE_USER:
-			cout << "Enter index of user to delete: ";
-			cin >> userToDelete;
-			DeleteUser(&db, &size, userToDelete);
-			break;
-		case CHANGE_PASSWORD:
-			cout << "Enter login: ";
-			cin >> login;
-			cout << "Enter new password: ";
-			cin >> password;
-			ChangePassword(db, size, login, password);
-			break;
-		case SHOW_DATA:
-			PrintDB(db, size);
-			break;
-		default:
-			cout << "action not exist!";
-			break;
-		}
-	}
 
 }
